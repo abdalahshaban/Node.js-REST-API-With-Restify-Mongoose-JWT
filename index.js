@@ -7,6 +7,9 @@ const server = restify.createServer();
 //middleware
 server.use(restify.plugins.bodyParser());
 
+//Protect Routes
+// server.use(rjwt({ secret: config.JWT_SECRET }).unless({ path: [ '/auth' ] }));
+
 server.listen(config.PORT, () => {
 	mongoose.connect(config.MONGODB_URL, { useNewUrlParser: true, useFindAndModify: false });
 });
@@ -19,5 +22,6 @@ db.on('error', (err) => {
 
 db.once('open', () => {
 	require('./routes/customers')(server);
-	console.log(`Server Started on port ${config.PORT}`);
+	require('./routes/users')(server);
+	console.log(`Server Started on port ${config.PORT} 🔥`);
 });
